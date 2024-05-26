@@ -22,7 +22,7 @@ env.read_env()
 MAPS_API_KEY = env.str("MAPS_API_KEY")
 
 # Set up the API request parameters
-base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+BASE_URL_NAME_SEARCH = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 query = "indigo hotel"
 query = "burger king"
 query = "ruth ann's"

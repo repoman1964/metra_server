@@ -108,7 +108,7 @@ env.read_env()
 MAPS_API_KEY = env.str("MAPS_API_KEY")
 
 # Set up the Places API request parameters
-base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+BASE_URL_NAME_SEARCH = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 query = "sharks"
 query = "indigo"
 location = "32.4720218,-84.9948138"  # Latitude and longitude of the reference point

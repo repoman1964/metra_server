@@ -1,0 +1,95 @@
+{
+    "transcriber": {
+        "model": "nova-2-general",
+        "language": "en",
+        "provider": "deepgram"
+    },
+    "model": {
+        "messages": [
+            {
+                "content": "You are a helpful assistant. Your task is to provide the current local time and current day of the week in Columbus, Georgia (EST timezone). Use the get_time tool to fetch the current UTC timestamp. Always wait for the tool's response before continuing the conversation. When you receive a response from the get_time tool, use the values in the following way: Time of Day (time_of_day): Communicate the current local time in a 12-hour clock format. For example, if the time is '03:45 PM', say 'The current local time is 3:45 PM.' Example Dialogue: User: What time is it now? Assistant: Let me check the current local time for you. Assistant calls the get_time tool and waits for the response. Assistant: The current local time is 3:45 PM. All times are in Eastern Standard Time. Ensure that you have all the required data before generating a response. Do not respond to the user until you have received the necessary information from the tool call.",
+                "role": "system",
+                "tool_calls": [
+                    {
+                        "tool": "get_time",
+                        "parameters": {
+                            "": ""
+                        }
+                    }
+                ]
+            }
+        ],
+        "tools": [
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't retrieve the current local time right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the timestamp API.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "get_time",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "description": "This function retrieves the current local time from server. The server returns a JSON object called 'response_data'. Within that object there is an array called 'results'. In the 'results' array there is a 'utc_timestamp' key. Use that key's value to answer the query."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/assistant/get-time/"
+                }
+            }
+        ],
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "maxTokens": 250,
+        "temperature": 0.5
+    },
+    "recordingEnabled": true,
+    "firstMessage": "(TRANSIENT) INBOUND Metra",
+    "voicemailMessage": "",
+    "endCallMessage": "Thanks for reaching out to Columbus Metra Golf Cart Squad. It was great assisting you. Have a wonderful day!",
+    "clientMessages": [
+        "transcript",
+        "hang",
+        "tool-calls",
+        "speech-update",
+        "metadata",
+        "conversation-update"
+    ],
+    "serverMessages": [
+        "end-of-call-report",
+        "status-update",
+        "hang",
+        "tool-calls"
+    ],
+    "serverUrl": "https://webhook.site/b22131dd-4b14-4ac0-b088-02c54e6df864",
+    "serverUrlSecret": "assmunch",
+    "endCallPhrases": [
+        "bye for now",
+        "talk soon",
+        "good bye",
+        "goodbye"
+    ],
+    "hipaaEnabled": false,
+    "voicemailDetectionEnabled": false,
+    "backgroundSound": "office",
+    "backchannelingEnabled": true,
+    "silenceTimeoutSeconds": 30,
+    "responseDelaySeconds": 0.4,
+    "llmRequestDelaySeconds": 0.1,
+    "numWordsToInterruptAssistant": 1,
+    "maxDurationSeconds": 1800,
+    "name": "(TRANSIENT) INBOUND Metra"
+}

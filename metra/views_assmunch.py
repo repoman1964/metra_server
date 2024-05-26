@@ -16,7 +16,7 @@ MAPS_API_KEY = env.str("MAPS_API_KEY")
 # def check_point_within_service_area(request):
 
 #     # Set up the Places API request parameters
-#     base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+#     BASE_URL_NAME_SEARCH = "https://maps.googleapis.com/maps/api/place/textsearch/json"
 #     query = "sharks"
 #     query = "2WR"
 #     location = "32.463307,-84.993284"  # Latitude and longitude of the reference point (shuttle garage)
@@ -180,7 +180,7 @@ def search_location(request):
     if request.method == 'POST' or 'GET': #for development, VAPI sends a POST request
 
         # Set up the Places API request parameters
-        base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+        BASE_URL_NAME_SEARCH = "https://maps.googleapis.com/maps/api/place/textsearch/json"
         query = "sharks"
         query = "2WR"
         location = "32.463307,-84.993284"  # Latitude and longitude of the reference point (shuttle garage)

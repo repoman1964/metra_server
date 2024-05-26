@@ -1,0 +1,365 @@
+{
+    "transcriber": {
+        "model": "nova-2-general",
+        "language": "en",
+        "provider": "deepgram"
+    },
+    "model": {
+        "messages": [
+            {
+                "role": "system",
+                "content": "# Role\nYou are Officer Friendly, a helpful and empathetic public officer in the city of Columbus, Georgia. Your role is to assist callers in scheduling a ride with the city's free downtown golf cart shuttle system.\n\n## Task\n1. Use the `getCurrentTime` tool at the beginning of each call and when needed to accurately process the conversation. Wait for the server response before continuing.\n2. Answer calls, understand the caller's needs, and help them schedule a ride with the golf cart shuttle if the requested time is within the hours of operation.\n3. Ask for the intended pickup time early in the conversation and determine if it is within service hours.\n4. Ask for intended pickup and destination points, and the number of passengers.\n5. Use the `getPickupPointName` or `getDropOffPointName` tools to verify location names and the `getPickupPointAddress` or `getDropOffPointAddress` tools to verify addresses."
+            }
+        ],
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "functions": [],
+        "tools": [
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The current day of the week is"
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't get the current day of the week right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getCurrentDayOfWeek",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "description": "Returns the current day of the week."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-current-day-of-week/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The current time is"
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't get the current time right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getCurrentTime",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "description": "Returns the current time in Eastern Standard Time."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-current-time/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The pickup point name has been verified."
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't verify the pickup point name right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getPickupPointName",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "pickupPointName": {
+                                "type": "string",
+                                "description": "Name of caller's desired pickup point location."
+                            }
+                        }
+                    },
+                    "description": "If the caller gives the name of their desired shuttle pickup location, query Google Places API for lat/lng coordinates. If no coordinates are found, ask for the address and use 'getPickupPointAddress' to determine the lat/lng coordinates."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-pickup-point-name/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The pickup point address has been verified."
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't verify the pickup point address right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getPickupPointAddress",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "pickupPointAddress": {
+                                "type": "string",
+                                "description": "Address of caller's desired pickup point location."
+                            }
+                        }
+                    },
+                    "description": "If the caller gives the address of their desired shuttle pickup location, read the address back to the caller and get confirmation. Then query Google Places API for lat/lng coordinates. If no results, try again with the location's name using 'getPickupPointName'."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-pickup-point-address/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The drop-off point name has been verified."
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't verify the drop-off point name right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getDropOffPointName",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "dropOffPointName": {
+                                "type": "string",
+                                "description": "Name of caller's desired drop-off point location."
+                            }
+                        }
+                    },
+                    "description": "If the caller gives the name of their desired shuttle drop-off location, query Google Places API for lat/lng coordinates. If no coordinates are found, ask for the address and use 'getDropOffPointAddress' to determine the lat/lng coordinates."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-dropoff-point-name/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The drop-off point address has been verified."
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't verify the drop-off point address right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getDropOffPointAddress",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "dropOffPointAddress": {
+                                "type": "string",
+                                "description": "Address of caller's desired drop-off point location."
+                            }
+                        }
+                    },
+                    "description": "If the caller gives the address of their desired shuttle drop-off location, read the address back to the caller and get confirmation. Then query Google Places API for lat/lng coordinates. If no results, try again with the location's name using 'getDropOffPointName'."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-dropoff-point-address/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The current UTC timestamp is"
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't get the current UTC timestamp right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getCurrentUTC",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "description": "Returns the current UTC timestamp."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-utc/"
+                }
+            },
+            {
+                "type": "function",
+                "messages": [
+                    {
+                        "type": "request-start",
+                        "content": ""
+                    },
+                    {
+                        "type": "request-complete",
+                        "content": "The closest intersection has been found."
+                    },
+                    {
+                        "type": "request-failed",
+                        "content": "I couldn't find the closest intersection right now."
+                    },
+                    {
+                        "type": "request-response-delayed",
+                        "content": "It appears there is some delay in communication with the server.",
+                        "timingMilliseconds": 2000
+                    }
+                ],
+                "function": {
+                    "name": "getClosestIntersection",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "locationLAT": {
+                                "type": "string",
+                                "description": "Latitude of desired pickup or drop-off's location."
+                            },
+                            "locationLNG": {
+                                "type": "string",
+                                "description": "Longitude of desired pickup or drop-off's location."
+                            },
+                            "locationTYPE": {
+                                "type": "string",
+                                "description": "Helps the system determine how to calculate the direction/distance from location to intersection. If asking about pickup locations, set to 'pickup'; otherwise, set to 'dropoff'."
+                            }
+                        }
+                    },
+                    "description": "If the caller's desired shuttle pickup or drop-off location is outside the defined service area, suggest the closest intersection within the service area, including name, direction, and distance in city blocks."
+                },
+                "async": false,
+                "server": {
+                    "url": "https://07ad-24-96-15-35.ngrok-free.app/vapi/get-closest-intersection/"
+                }
+            }
+        ],
+        "maxTokens": 250,
+        "temperature": 0.5
+    },
+    "recordingEnabled": true,
+    "firstMessage": "Columbus METRA golf cart squad... My name is Officer Friendly. How can I help you?",
+    "voicemailMessage": "",
+    "endCallFunctionEnabled": false,
+    "endCallMessage": "Thanks for reaching out to Columbus Metra Golf Cart Squad. It was great assisting you. Have a wonderful day!",
+    "clientMessages": [
+        "transcript",
+        "hang",
+        "tool-calls",
+        "speech-update",
+        "metadata",
+        "conversation-update"
+    ],
+    "serverMessages": [
+        "end-of-call-report",
+        "status-update",
+        "hang",
+        "tool-calls"
+    ],
+    "dialKeypadFunctionEnabled": false,
+    "serverUrl": "https://webhook.site/b22131dd-4b14-4ac0-b088-02c54e6df864",
+    "serverUrlSecret": "assmunch",
+    "endCallPhrases": [
+        "bye for now",
+        "talk soon",
+        "good bye",
+        "goodbye"
+    ],
+    "hipaaEnabled": false,
+    "voicemailDetectionEnabled": false,
+    "backgroundSound": "office",
+    "backchannelingEnabled": true,
+    "silenceTimeoutSeconds": 30,
+    "responseDelaySeconds": 0.4,
+    "llmRequestDelaySeconds": 0.1,
+    "numWordsToInterruptAssistant": 1,
+    "maxDurationSeconds": 1800,
+    "name": "INBOUND Metra (TRANSIENT)"
+}

@@ -29,7 +29,7 @@ ALLOWED_HOSTS = [
     "localhost", 
     "0.0.0.0", 
     "127.0.0.1",
-    "e863-24-96-15-35.ngrok-free.app",
+    "07ad-24-96-15-35.ngrok-free.app",
     ]
 
 
@@ -45,7 +45,9 @@ INSTALLED_APPS = [
 
     # LOCAL
     "vapi",
-    "metra", 
+    "metra",
+    "google_apis",
+    "assistant"
 ]
 
 MIDDLEWARE = [
@@ -82,23 +84,23 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'metra_db',
-        'USER': 'metra_db_user',
-        'PASSWORD': 'O5ba5fFN%EC2pHTfYD^eYsJZqkW3B',
-        'HOST': 'localhost',
-        'PORT': '',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'metra_db',
+#         'USER': 'metra_db_user',
+#         'PASSWORD': 'O5ba5fFN%EC2pHTfYD^eYsJZqkW3B',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 
